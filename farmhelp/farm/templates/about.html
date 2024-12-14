@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>About Us</h2>
+<div class="about-container">
+    <div class="about-box about-solution">
+        <h2>What We Solve</h2>
+        <p>
+            Shamba Smart addresses the challenges faced by farmers in accessing modern farming practices, resources, and a support network. 
+            We focus on reducing the gap between traditional farming methods and the latest innovations to boost agricultural productivity. 
+            Our platform provides real-time data, market insights, and expert advice to help farmers make informed decisions and grow their businesses sustainably.
+        </p>
+    </div>
+
+    <div class="about-box about-help">
+        <h2>How Shamba Smart Helps</h2>
+        <p>
+            We empower farmers with modern tools, resources, and education. Shamba Smart connects farmers with experts, provides up-to-date farming trends, 
+            and fosters community-driven solutions. Our platform helps farmers access financing options, efficient farming techniques, 
+            and a marketplace to sell their produce, all in one place.
+        </p>
+    </div>
+
+    <div class="about-box about-commitment">
+        <h2>Our Commitment</h2>
+        <p>
+            At Shamba Smart, we are committed to improving the livelihoods of farmers. We believe in the power of sustainable farming practices 
+            and innovation to increase productivity, reduce poverty, and promote environmental conservation. We are dedicated to creating a strong network 
+            where farmers can grow, learn, and thrive.
+        </p>
+    </div>
+
+    <div class="about-box about-vision">
+        <h2>Our Vision</h2>
+        <p>
+            Our vision is to become the leading platform for agricultural innovation, helping farmers worldwide achieve greater success and sustainability. 
+            By leveraging technology, education, and community support, we aim to transform the agricultural sector into a thriving, productive, and sustainable industry.
+        </p>
+    </div>
+</div>
+
+<style>
+    .about-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 40px auto;
+        max-width: 1200px;
+    }
+
+    .about-box {
+        padding: 40px;
+        margin: 20px 0;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 800px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .about-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .about-solution {
+        background-color: #e0f7fa;
+        color: #00796b;
+    }
+
+    .about-help {
+        background-color: #fff3e0;
+        color: #f57c00;
+    }
+
+    .about-commitment {
+        background-color: #f1f8e9;
+        color: #388e3c;
+    }
+
+    .about-vision {
+        background-color: #e1bee7;
+        color: #6a1b9a;
+    }
+
+    .about-box h2 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .about-box p {
+        font-size: 18px;
+        line-height: 1.8;
+        text-align: center;
+    }
+</style>
+
+{% endblock %}

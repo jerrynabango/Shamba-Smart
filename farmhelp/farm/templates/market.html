@@ -1,0 +1,163 @@
+{% extends "home.html" %}
+
+{% block content %}
+<head>
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-card {
+            margin-bottom: 24px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            background-color: white;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            background-color: #f4f7f6;
+        }
+
+        .product-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .product-card p {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .product-card img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            object-fit: cover;
+        }
+
+        /* Button and link styles */
+        a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #1D4ED8;
+        }
+
+        a:hover {
+            color: #2563EB;
+        }
+
+        a.delete {
+            color: #DC2626;
+        }
+
+        a.delete:hover {
+            color: #B91C1C;
+        }
+
+        a.message {
+            color: #10B981;
+        }
+
+        a.message:hover {
+            color: #16A34A;
+        }
+
+        .product-card .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .product-card .posted-by {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .product-card .posted-by span {
+            font-size: 0.875rem;
+            color: #6B7280;
+        }
+
+        .product-card .flex-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .product-card .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .product-card .actions a {
+            margin-right: 8px;
+        }
+
+        .product-card .posted-by > span {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+
+<div class="container">
+    <h2 class="text-2xl font-semibold mb-6">Available Products</h2>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'add_product' %}" class="text-blue-600 hover:text-blue-700 mb-4 inline-block">Add New Product</a>
+    {% endif %}
+
+    {% for listing in listings %}
+        <div class="product-card">
+            <h3 class="text-xl font-semibold">{{ listing.product_name }}</h3>
+            <p>{{ listing.description }} - Price: {{ listing.price }} {{ listing.currency }}</p>
+            <p>Status: {{ listing.get_status_display }}</p>
+
+            {% if listing.image %}
+                <img src="{{ listing.image.url }}" alt="{{ listing.product_name }}">
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'place_order' listing.id %}" class="btn btn-primary mt-4">Place Order</a>
+            {% endif %}
+
+            <div class="actions">
+                {% if user.is_authenticated %}
+                    {% if listing.farmer == user %}
+                        <div>
+                            <a href="{% url 'edit_product' listing.id %}" class="text-blue-600 hover:text-blue-700">Edit</a> | 
+                            <a href="{% url 'delete_product' listing.id %}" class="delete hover:text-red-700">Delete</a>
+                        </div>
+                    {% else %}
+                        <div class="posted-by">
+                            <span class="font-semibold">Posted by {{ listing.farmer.username }}</span>
+                            
+                            {% load tz %}
+                            <span class="text-sm text-gray-500">
+                                Posted on {{ listing.created_at|localtime|date:"F j, Y, g:i a" }}
+                            </span>
+                            
+                            <a href="{% url 'send_message_user' listing.farmer.id %}?next={% url 'market' %}" class="message flex items-center">
+                                <i class="fas fa-comment text-xs mr-2"></i> 
+                                Message Me
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "home.html" %}
+
+{% block content %}
+    <style>
+        .edit-message-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            background-color: #f4f8f2;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #d1e0c6;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #3a5a40;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea, button {
+            padding: 12px;
+            border: 1px solid #d1e0c6;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #333;
+            background-color: #ffffff;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus, button:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838; 
+        }
+
+        @media (max-width: 768px) {
+            .edit-message-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            form {
+                gap: 12px;
+            }
+
+            input, textarea, button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+
+    <div class="edit-message-container">
+        <h2>Edit Your Message</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-field">
+                {{ form.message.label }}
+                {{ form.message }}
+            </div>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const socket = new WebSocket(`ws://${window.location.host}/ws/direct_message/{{ message.receiver.username }}/`);
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            if (data.event === 'message_edited') {
+                alert('Message updated successfully!');
+            }
+        };
+    </script>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'home.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>Edit Blog Post: {{ post.title }}</h2>
+
+    <div class="form-container">
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+      </form>
+    </div>
+
+    <br>
+    <a href="{% url 'post_detail' post.id %}" class="back-button">Back to post</a>
+  </div>
+
+  <style>
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    form input, form textarea, form button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    form button {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        transition: transform 0.2s, background-color 0.2s;
+    }
+
+    form button:hover {
+        transform: scale(1.1);
+        background-color: #45a049;
+    }
+
+    form button:active {
+        background-color: #388e3c;
+    }
+
+    .back-button {
+        background-color: #f0f0f0;
+        color: #333;
+        border: 1px solid #ccc;
+        padding: 10px 15px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .back-button:hover {
+        transform: scale(1.1);
+        background-color: #e0e0e0;
+    }
+  </style>
+
+{% endblock %}

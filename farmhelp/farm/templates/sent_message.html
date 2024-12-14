@@ -1,0 +1,141 @@
+{% extends "home.html" %}
+
+{% block content %}
+    <style>
+        .sent-messages-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            background-color: #f4f8f2;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #d1e0c6; 
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #3a5a40;
+        }
+
+        .messages-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #007bff;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .message:hover {
+            transform: translateX(8px);
+        }
+
+        .message-info {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .timestamp {
+            display: block;
+            font-size: 0.875rem;
+            color: #6b7280; 
+            margin-top: 8px;
+        }
+
+        .action-btn {
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .edit-btn {
+            color: #ffc107;
+        }
+
+        .delete-btn {
+            color: #dc3545;
+        }
+
+        .action-btn:hover {
+            color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .sent-messages-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .message {
+                padding: 15px;
+            }
+        }
+    </style>
+
+    <div class="sent-messages-container">
+        <h2>Your Sent Messages</h2>
+
+        <!-- Sent Messages Container -->
+        <div id="sent-messages-container" class="messages-list">
+            {% for message in messages %}
+                <div class="message" id="message-{{ message.id }}">
+                    <p>To: <strong>{{ message.receiver }}</strong> - {{ message.message }}</p>
+                    <small>Sent at: {{ message.timestamp|date:"F j, Y, g:i a" }}</small>
+
+                    <!-- Edit Button -->
+                    <a href="{% url 'edit_message' message.id %}" class="action-btn edit-btn">Edit</a> |
+
+                    <!-- Delete Button -->
+                    <a href="{% url 'delete_message' message.id %}" class="action-btn delete-btn">Delete</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const username = "{{ user.username }}";
+        const sentMessagesSocket = new WebSocket(
+            `ws://${window.location.host}/ws/direct_message/${username}/`
+        );
+
+        sentMessagesSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+
+            if (data.type === "new_message") {
+                const messageDiv = document.createElement("div");
+                messageDiv.id = `message-${data.message_id}`;
+                messageDiv.classList.add("message");
+                messageDiv.innerHTML = `
+                    <p>To: <strong>${data.receiver}</strong> - ${data.message}</p>
+                    <small>Sent at: ${data.timestamp}</small>
+                    <a href="/edit_message/${data.message_id}/" class="action-btn edit-btn">Edit</a> |
+                    <a href="/delete_message/${data.message_id}/" class="action-btn delete-btn">Delete</a>
+                `;
+
+                const messagesContainer = document.getElementById("sent-messages-container");
+                messagesContainer.appendChild(messageDiv);
+            }
+        };
+
+        sentMessagesSocket.onclose = function(e) {
+            console.error("WebSocket closed unexpectedly");
+        };
+    </script>
+{% endblock %}

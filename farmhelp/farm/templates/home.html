@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="centered-content">
+    <h1 class="title">Welcome to Shamba Smart</h1>
+
+    <div class="intro-box">
+        <div class="intro-text">
+            <span class="typing">
+                Welcome to Shamba Smart,<br>
+                a platform designed to help farmers achieve growth and success.<br>
+                We provide modern farming practices,<br>
+                useful resources, and a strong community of support.<br>
+                Our goal is to improve agricultural productivity,<br>
+                foster sustainable farming practices,<br>
+                and empower farmers to reach their full potential.<br>
+                Join us today and take the first step towards success in farming.
+            </span>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-image: url("{% static 'images/background-image.jpg' %}");
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+    }
+
+    .centered-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: 20px auto;
+    }
+
+    .title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        margin-top: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .intro-box {
+        padding: 40px;
+        margin-top: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        width: 80%;
+        max-width: 800px;
+    }
+
+    .intro-box:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .intro-text {
+        font-size: 22px;
+        font-style: italic;
+        font-weight: 500;
+        color: #333;
+        line-height: 1.8;
+    }
+
+    .typing {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        animation: typing 12s steps(100) forwards;
+    }
+
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

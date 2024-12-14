@@ -1,0 +1,157 @@
+{% extends "home.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<head>
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #111827;
+        }
+
+        /* Error message styles */
+        .error-messages {
+            background-color: #fee2e2;
+            color: #dc2626; 
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .error-messages ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .error-messages li {
+            margin-bottom: 8px;
+        }
+
+        .form-field {
+            margin-bottom: 16px;
+        }
+
+        .form-field label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+            border-color: #3b82f6;
+        }
+
+        .form-field textarea {
+            resize: none;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1d4ed8;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #2563eb;
+        }
+
+        /* Back link styling */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1d4ed8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #2563eb;
+        }
+    </style>
+</head>
+
+<div class="form-container">
+    <h2>Edit Product</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="error-messages">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="form-field">
+            <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+            {{ form.image|add_class:"w-full px-4 py-2 border rounded-md" }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.product_name.id_for_label }}">{{ form.product_name.label }}</label>
+            {{ form.product_name|add_class:"w-full px-4 py-2 border rounded-md" }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            {{ form.description|add_class:"w-full px-4 py-2 border rounded-md resize-none" }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.price.id_for_label }}">{{ form.price.label }}</label>
+            {{ form.price|add_class:"w-full px-4 py-2 border rounded-md" }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.currency.id_for_label }}">{{ form.currency.label }}</label>
+            {{ form.currency|add_class:"w-full px-4 py-2 border rounded-md" }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.status.id_for_label }}">{{ form.status.label }}</label>
+            {{ form.status|add_class:"w-full px-4 py-2 border rounded-md" }}
+        </div>
+
+        <div class="form-field">
+            <button type="submit" class="submit-button">
+                Save Changes
+            </button>
+        </div>
+    </form>
+
+    <a href="{% url 'market' %}" class="back-link">Back to Market</a>
+</div>
+{% endblock %}

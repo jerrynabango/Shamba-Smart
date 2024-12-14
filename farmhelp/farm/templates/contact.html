@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Shamba Smart{% endblock %}
+
+{% block content %}
+    <style>
+        .form-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            background-color: #f4f8f2;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #d1e0c6;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #3a5a40;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #3a5a40;
+        }
+
+        form p {
+            margin-bottom: 20px;
+        }
+
+        form input,
+        form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        form textarea {
+            height: 180px;
+            resize: none;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        #feedbackMessage {
+            position: fixed;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+
+    <div id="feedbackMessage"></div>
+
+    <div class="form-container">
+        <h2>Contact Us</h2>
+        <p>We'd love to hear from you! Please fill out the form below, and we'll get back to you as soon as possible.</p>
+
+        <form method="POST" id="contactForm">
+            {% csrf_token %}
+            <p>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </p>
+            <p>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </p>
+            <p>
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" required>
+            </p>
+            <p>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+            </p>
+            <button type="submit" class="submit-button">Send Message</button>
+        </form>
+    </div>
+
+    {% if success_message %}
+        <script>
+            const feedbackMessage = document.getElementById('feedbackMessage');
+            feedbackMessage.style.backgroundColor = '#4CAF50';
+            feedbackMessage.textContent = "{{ success_message }}";
+            feedbackMessage.style.opacity = '1';
+            setTimeout(() => feedbackMessage.style.opacity = '0', 4000);
+        </script>
+    {% endif %}
+
+    {% if error_message %}
+        <script>
+            const feedbackMessage = document.getElementById('feedbackMessage');
+            feedbackMessage.style.backgroundColor = '#f44336';
+            feedbackMessage.textContent = "{{ error_message }}";
+            feedbackMessage.style.opacity = '1';
+            setTimeout(() => feedbackMessage.style.opacity = '0', 4000);
+        </script>
+    {% endif %}
+{% endblock %}
