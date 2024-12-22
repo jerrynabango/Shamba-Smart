@@ -51,7 +51,8 @@ urlpatterns = [
     path('contact/', views.contact_us, name='contact_us'),
     path('place_order/<int:listing_id>/', views.place_order,
          name='place_order'),
-
+    path('mpesa/callback/', views.mpesa_callback, name='mpesa_callback'),
+    path('process_payment/', views.process_payment, name='process_payment'),
 ]
 
 # path('chat/<str:username>/', views.chat_view, name='chat_view'),

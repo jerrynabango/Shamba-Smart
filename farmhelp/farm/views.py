@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import BlogPost, MarketListing, CustomUser, DirectMessage, Comment, BlogPostReaction, CommentReaction, OTP, Contact, Order
+from .models import BlogPost, MarketListing, CustomUser, DirectMessage, Comment, BlogPostReaction, CommentReaction, OTP, Contact, Order, TransactionLog
 from django.contrib.auth.decorators import login_required
 from django_otp import user_has_device
 from django.contrib.auth.forms import UserChangeForm, AuthenticationForm
@@ -18,6 +18,11 @@ import string
 import logging
 import requests
 from channels.layers import get_channel_layer
+from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime
+import base64
+import json
+from decouple import config
 
 
 logger = logging.getLogger(__name__)
@@ -482,14 +487,163 @@ def place_order(request, listing_id):
             order = form.save(commit=False)
             order.product = listing
             order.user = request.user
+            order.order_status = 'Pending Payment'
             order.save()
 
-            messages.success(request, "Your order has been placed successfully!")
-            return redirect('order_confirmation')
+            # Initiate M-Pesa Payment
+            phone_number = form.cleaned_data['phone_number']
+            amount = listing.price
+            try:
+                response = initiate_mpesa_payment(phone_number, amount)
+                response_code = response.get('ResponseCode', 'Unknown')
+                response_description = response.get('ResponseDescription', 'No description provided')
+
+                # Log transaction
+                TransactionLog.objects.create(
+                    order=order,
+                    response_code=response_code,
+                    response_description=response_description,
+                    transaction_id=response.get('CheckoutRequestID', None),
+                )
+
+                if response_code == '0':
+                    return JsonResponse({'success': True, 'message': 'Payment initiated. Please enter your PIN.'})
+                else:
+                    order.order_status = 'Payment Failed'
+                    order.save()
+                    return JsonResponse({'success': False, 'message': response_description})
+            except Exception as e:
+                order.order_status = 'Payment Failed'
+                order.save()
+                TransactionLog.objects.create(
+                    order=order,
+                    response_code='500',
+                    response_description=str(e),
+                )
+                return JsonResponse({'success': False, 'message': 'An error occurred while processing payment. Try again later.'})
 
         else:
-            messages.error(request, "There was an error with your order.")
+            return JsonResponse({'success': False, 'message': 'Invalid form submission.'}, status=400)
 
     form = OrderForm()
-    return render(request, 'place_order.html', {'listing': listing,
-                                                'form': form})
+    return render(request, 'place_order.html', {'listing': listing, 'form': form})
+
+
+@csrf_exempt
+def process_payment(request):
+    """
+    Processes the payment for an order.
+    """
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            phone_number = data.get('phone_number')
+            quantity = data.get('quantity')
+            name = data.get('name')
+            listing_id = data.get('listing_id')
+
+            if not all([phone_number, quantity, name, listing_id]):
+                return JsonResponse({'success': False, 'message': 'Missing required fields.'}, status=400)
+
+            # Retrieve listing and calculate amount
+            listing = MarketListing.objects.get(id=listing_id)
+            amount = listing.price * int(quantity)
+
+            # Initiate M-Pesa payment
+            response = initiate_mpesa_payment(phone_number, amount)
+            response_code = response.get('ResponseCode', 'Unknown')
+            response_description = response.get('ResponseDescription', 'No description provided')
+
+            # Log transaction
+            TransactionLog.objects.create(
+                response_code=response_code,
+                response_description=response_description,
+                transaction_id=response.get('CheckoutRequestID', None),
+            )
+
+            if response_code == '0':
+                return JsonResponse({'success': True, 'message': 'Payment initiated. Please check your phone to enter your PIN.'})
+            else:
+                return JsonResponse({'success': False, 'message': response_description})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': f"An error occurred: {str(e)}"}, status=500)
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'}, status=405)
+
+
+def initiate_mpesa_payment(phone_number, amount):
+    """
+    Initiates the M-Pesa STK Push request.
+    """
+    try:
+        # Load credentials from environment variables
+        consumer_key = config('MPESA_CONSUMER_KEY')
+        consumer_secret = config('MPESA_CONSUMER_SECRET')
+        shortcode = config('MPESA_SHORTCODE')
+        passkey = config('MPESA_PASSKEY')
+        callback_url = config('MPESA_CALLBACK_URL')
+
+        # Generate access token
+        token_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
+        token_response = requests.get(token_url, auth=(consumer_key,
+                                                       consumer_secret))
+        if token_response.status_code != 200:
+            raise Exception("Failed to authenticate with M-Pesa. Check credentials.")
+
+        access_token = token_response.json().get('access_token')
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        password = base64.b64encode(f"{shortcode}{passkey}{timestamp}".encode()).decode()
+
+        # Prepare STK Push request
+        headers = {'Authorization': f'Bearer {access_token}'}
+        payload = {
+            "BusinessShortCode": shortcode,
+            "Password": password,
+            "Timestamp": timestamp,
+            "TransactionType": "CustomerPayBillOnline",
+            "Amount": amount,
+            "PartyA": phone_number,
+            "PartyB": shortcode,
+            "PhoneNumber": phone_number,
+            "CallBackURL": callback_url,
+            "AccountReference": "OrderPayment",
+            "TransactionDesc": "Payment for Order",
+        }
+
+        response = requests.post('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', headers=headers, json=payload)
+        response.raise_for_status()
+        return response.json()
+
+    except requests.RequestException as e:
+        raise Exception(f"M-Pesa request failed: {str(e)}")
+
+
+
+@csrf_exempt
+def mpesa_callback(request):
+    """
+    Handles M-Pesa payment callback.
+    """
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        result_code = data['Body']['stkCallback']['ResultCode']
+        checkout_request_id = data['Body']['stkCallback']['CheckoutRequestID']
+
+        # Update order and log transaction
+        transaction = TransactionLog.objects.get(transaction_id=checkout_request_id)
+        order = transaction.order
+
+        if result_code == 0:
+            order.order_status = 'Payment Successful'
+            transaction.response_description = 'Payment successful!'
+        else:
+            order.order_status = 'Payment Failed'
+            transaction.response_description = 'Payment failed or cancelled.'
+
+        order.save()
+        transaction.save()
+
+        return JsonResponse({'success': result_code == 0, 'message': transaction.response_description})
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': f"Callback processing error: {str(e)}"}, status=500)

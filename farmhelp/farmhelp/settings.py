@@ -9,9 +9,13 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+
 import os
-from pathlib import Path
+import dj_database_url
+from decouple import config
 from django.contrib.messages import constants as message_constants
+from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +30,12 @@ SECRET_KEY = 'django-insecure-s53l*ofnk&#a_0@f@dp&%7ghdo^4*s%w@ym%wsb%hv1tagm-m6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '2400-102-135-170-235.ngrok-free.app',
+    'farmhelp.herokuapp.com'
+]
 
 
 # Application definition
@@ -68,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'farmhelp.urls'
@@ -146,6 +156,12 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Whitenoise storage for serving static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -196,3 +212,11 @@ USE_TZ = True
 
 # settings.py
 LOGIN_URL = '/login/'
+
+
+# Safaricom Daraja API credentials
+MPESA_CONSUMER_KEY = '50t2mN7NirbBsqjAu0FvACzJETJGpBGfJMroUGtEYMzHtP7H'
+MPESA_CONSUMER_SECRET = 'upGg9DDoyl4nwUa2PYOpIzYAGRsKGJp66rXI4RYbend9j9pZ9pVowI5Ok5F2AjqR'
+MPESA_SHORTCODE = '174379'
+MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+MPESA_CALLBACK_URL = 'https://2400-102-135-170-235.ngrok-free.app/mpesa/callback'

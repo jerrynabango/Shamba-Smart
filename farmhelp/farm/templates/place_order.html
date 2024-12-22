@@ -120,7 +120,7 @@
         <div class="form-container">
             <h2>Place Order for {{ listing.product_name }}</h2>
 
-            <form method="POST">
+            <form id="orderForm" method="POST">
                 {% csrf_token %}
                 {% if form.errors %}
                     <div class="error">
@@ -172,13 +172,51 @@
     </div>
 
     <script>
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.tags == 'success' %}
+        const csrfToken = "{{ csrf_token }}";
+
+        document.getElementById('orderForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+
+            fetch("{% url 'process_payment' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formData.get('name'),
+                    phone_number: formData.get('phone_number'),
+                    quantity: formData.get('quantity'),
+                    listing_id: '{{ listing.id }}',
+                }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Display success message in the pop-up
+                    document.getElementById('popupMessage').textContent = "Payment initiated successfully! Please check your phone to enter your PIN.";
                     document.getElementById('orderPopup').style.display = 'block';
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+                } else {
+                    // Display failure message in the pop-up
+                    document.getElementById('popupMessage').textContent = "Payment failed: " + data.message;
+                    document.getElementById('orderPopup').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Display unexpected error in the pop-up
+                document.getElementById('popupMessage').textContent = "An unexpected error occurred. Please try again.";
+                document.getElementById('orderPopup').style.display = 'block';
+            });
+        });
 
         function closePopup() {
             document.getElementById('orderPopup').style.display = 'none';
