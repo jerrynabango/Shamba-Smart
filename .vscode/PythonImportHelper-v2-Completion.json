@@ -1233,7 +1233,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-s53l*ofnk&#a_0@f@dp&%7ghdo^4*s%w@ym%wsb%hv1tagm-m6'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = [\n    '127.0.0.1',\n    'localhost',",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-s53l*ofnk&#a_0@f@dp&%7ghdo^4*s%w@ym%wsb%hv1tagm-m6'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = False\nALLOWED_HOSTS = [\n    '127.0.0.1',\n    'localhost',",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1242,7 +1242,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "SECRET_KEY = 'django-insecure-s53l*ofnk&#a_0@f@dp&%7ghdo^4*s%w@ym%wsb%hv1tagm-m6'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = [\n    '127.0.0.1',\n    'localhost',\n    '2400-102-135-170-235.ngrok-free.app',\n    'farmhelp.herokuapp.com'\n]\n# Application definition",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-s53l*ofnk&#a_0@f@dp&%7ghdo^4*s%w@ym%wsb%hv1tagm-m6'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = False\nALLOWED_HOSTS = [\n    '127.0.0.1',\n    'localhost',\n    '2400-102-135-170-235.ngrok-free.app',\n    'farmhelp.onrender.com'\n]\n# Application definition",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1251,7 +1251,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = [\n    '127.0.0.1',\n    'localhost',\n    '2400-102-135-170-235.ngrok-free.app',\n    'farmhelp.herokuapp.com'\n]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',",
+        "peekOfCode": "DEBUG = False\nALLOWED_HOSTS = [\n    '127.0.0.1',\n    'localhost',\n    '2400-102-135-170-235.ngrok-free.app',\n    'farmhelp.onrender.com'\n]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1260,7 +1260,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "ALLOWED_HOSTS = [\n    '127.0.0.1',\n    'localhost',\n    '2400-102-135-170-235.ngrok-free.app',\n    'farmhelp.herokuapp.com'\n]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',",
+        "peekOfCode": "ALLOWED_HOSTS = [\n    '127.0.0.1',\n    'localhost',\n    '2400-102-135-170-235.ngrok-free.app',\n    'farmhelp.onrender.com'\n]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1377,7 +1377,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\n#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATICFILES_DIRS = [",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\n#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1386,7 +1386,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\n#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\n#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\nSTATICFILES_DIRS = [",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1395,7 +1395,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\n#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\n#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1404,7 +1404,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\n#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nSTATIC_ROOT = BASE_DIR / 'staticfiles'",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/5.1/howto/static-files/\n#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1413,7 +1413,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nSTATIC_ROOT = BASE_DIR / 'staticfiles'\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type",
+        "peekOfCode": "#STATIC_URL = 'static/'\n#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1422,7 +1422,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nSTATIC_ROOT = BASE_DIR / 'staticfiles'\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field",
+        "peekOfCode": "#STATICFILES_DIRS = [BASE_DIR / \"static\"]\nSTATIC_URL = 'static/'\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1431,16 +1431,7 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "STATIC_URL = 'static/'\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nSTATIC_ROOT = BASE_DIR / 'staticfiles'\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
-        "detail": "farmhelp.farmhelp.settings",
-        "documentation": {}
-    },
-    {
-        "label": "STATICFILES_DIRS",
-        "kind": 5,
-        "importPath": "farmhelp.farmhelp.settings",
-        "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "STATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\nSTATIC_ROOT = BASE_DIR / 'staticfiles'\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nMEDIA_URL = '/media/'",
+        "peekOfCode": "STATIC_URL = 'static/'\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },
@@ -1449,7 +1440,16 @@
         "kind": 5,
         "importPath": "farmhelp.farmhelp.settings",
         "description": "farmhelp.farmhelp.settings",
-        "peekOfCode": "STATIC_ROOT = BASE_DIR / 'staticfiles'\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nMEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n# Messages\nMESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'",
+        "peekOfCode": "STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nMEDIA_URL = '/media/'",
+        "detail": "farmhelp.farmhelp.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATICFILES_DIRS",
+        "kind": 5,
+        "importPath": "farmhelp.farmhelp.settings",
+        "description": "farmhelp.farmhelp.settings",
+        "peekOfCode": "STATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static')\n]\n# Whitenoise storage for serving static files\nSTATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'\n# Default primary key field type\n# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nMEDIA_URL = '/media/'\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')",
         "detail": "farmhelp.farmhelp.settings",
         "documentation": {}
     },

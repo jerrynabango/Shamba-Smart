@@ -28,13 +28,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-s53l*ofnk&#a_0@f@dp&%7ghdo^4*s%w@ym%wsb%hv1tagm-m6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '2400-102-135-170-235.ngrok-free.app',
-    'farmhelp.herokuapp.com'
+    'farmhelp.onrender.com'
 ]
 
 
@@ -153,11 +153,11 @@ USE_TZ = True
 #STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_URL = 'static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Whitenoise storage for serving static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

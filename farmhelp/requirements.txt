@@ -12,6 +12,7 @@ beautifulsoup4==4.10.0
 blinker==1.4
 Brlapi==0.8.3
 certifi==2020.6.20
+cffi==1.17.1
 channels==4.2.0
 channels_redis==4.2.1
 chardet==4.0.0
@@ -84,6 +85,7 @@ psycopg2-binary==2.9.10
 ptyprocess==0.7.0
 pycairo==1.20.1
 pycodestyle==2.8.0
+pycparser==2.22
 pycups==2.0.1
 Pygments==2.11.2
 PyGObject==3.42.1
